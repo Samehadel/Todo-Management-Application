@@ -1,0 +1,3 @@
+Ctrl + Shift + R ---> Search for class
+
+Ctrl + O ---> search for fields inside a class
