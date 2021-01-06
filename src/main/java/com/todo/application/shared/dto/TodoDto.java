@@ -5,7 +5,7 @@ import java.util.Date;
 public class TodoDto {
 
 	private long id;
-	private String userName; 
+	private int userId; 
 	private String description;
 	private boolean isDone; 
 	private Date dueDate;
@@ -16,11 +16,11 @@ public class TodoDto {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getUserName() {
-		return userName;
+	public int getUserId() {
+		return userId;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public String getDescription() {
 		return description;

@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.todo.application.data.entities.TodoEntity;
+import com.todo.application.data.entities.UserEntity;
 import com.todo.application.respository.TodoRepository;
 import com.todo.application.services.TodoService;
+import com.todo.application.services.UserService;
 import com.todo.application.shared.dto.TodoDto;
 
 @Service
@@ -18,14 +20,63 @@ public class TodoServiceImplementation implements TodoService {
 	@Autowired
 	TodoRepository todoRepo;
 
+	@Autowired
+	UserService userService; 
+	
+	//Cretae
 	@Override
-	public int deleteTodo(long id, String userName) {
+	public void createTodo(TodoDto todoDto) {
 
-		int successState = todoRepo.deleteByUserNameAndId(userName, id);
-
-		return successState;
+		//Create TodoEntity Obj
+		TodoEntity todo = new TodoEntity();
+		
+		//Copy Properties from todoDto to todoEntity
+		BeanUtils.copyProperties(todoDto, todo);
+		
+		//Retrieve Corresponding User
+		UserEntity user = userService.retrieveUser(todoDto.getUserId());
+		
+		//Add the todo to the user
+		user.addTodo(todo);
+		todo.setUser(user);
+		
+		//Save todo
+		todoRepo.save(todo);
+		
 	}
 	
+	//Read
+	@Override
+	public List<TodoDto> retriveAllTodos(int userId) {
+
+		
+		List<TodoEntity> todos = todoRepo.findByUserId(userId);
+
+		List<TodoDto> returnTodos = new ArrayList<>();
+
+		TodoDto todoDto;
+
+		for (TodoEntity todo : todos) {
+			todoDto = new TodoDto();
+			BeanUtils.copyProperties(todo, todoDto);
+			returnTodos.add(todoDto);
+		}
+
+		return returnTodos;
+	}
+
+	@Override
+	public TodoDto retriveTodo(long id) {
+		TodoDto todoDto = new TodoDto();
+		TodoEntity todo = todoRepo.findById(id);
+		
+		BeanUtils.copyProperties(todo , todoDto);
+		
+		
+		return todoDto;
+	}
+	
+	//Update
 	@Override
 	public TodoDto updateTodo(TodoDto todoDto) {
 		
@@ -40,7 +91,6 @@ public class TodoServiceImplementation implements TodoService {
 		BeanUtils.copyProperties(todoDto, entity);
 		
 		System.out.println(entity.toString());
-		entity.setTableId(getTableId(todoDto.getUserName(), todoDto.getId()));
 
 		entity = todoRepo.save(entity);
 				
@@ -49,49 +99,17 @@ public class TodoServiceImplementation implements TodoService {
 		return todoDto;
 	}
 
-	@Override
-	public List<TodoDto> retriveAllTodos(String userName) {
 
-		List<TodoEntity> todos = todoRepo.findAllByUserName(userName);
-
-		List<TodoDto> returnTodos = new ArrayList<>();
-
-		TodoDto todoDto = new TodoDto();
-
-		for (TodoEntity todo : todos) {
-			BeanUtils.copyProperties(todo, todoDto);
-			returnTodos.add(todoDto);
-			todoDto = new TodoDto();
-		}
-
-		return returnTodos;
-	}
-
-	@Override
-	public TodoDto retriveTodo(String userName, long id) {
-		TodoEntity todo = todoRepo.findByUserNameAndId(userName, id);
-
-		TodoDto todoDto = new TodoDto();
-
-		BeanUtils.copyProperties(todo, todoDto);
 	
-		return todoDto;
-	}
-
+	/*
 	@Override
-	public TodoDto createTodo(TodoDto todoDto) {
+	public int deleteTodo(TodoDto todoDto) {
 
-		TodoEntity todoEntity = new TodoEntity();
+		//int successState = todoRepo.deleteByUserNameAndId(userName, id);
 
-		todoDto = assignId(todoDto);
-
-		BeanUtils.copyProperties(todoDto, todoEntity);
-
-		todoRepo.save(todoEntity);
-
-		return todoDto;
-	}
-
+		return 0;
+	}*/
+/*
 	public TodoDto assignId(TodoDto todoDto) {
 
 		List<TodoEntity> todos = todoRepo.findAllByUserName(todoDto.getUserName());
@@ -99,13 +117,21 @@ public class TodoServiceImplementation implements TodoService {
 		todoDto.setId(todos.size() + 1);
 
 		return todoDto;
-	}
+		return null;
+		
+	}*/
 	
 	public long getTableId(String userName, long id) {
-		TodoEntity entity = todoRepo.findByUserNameAndId(userName, id);
+		//TodoEntity entity = todoRepo.findByUserNameAndId(userName, id);
 		
 		
-		return entity.getTableId();
+		return 0;
+	}
+
+	@Override
+	public int deleteTodo(TodoDto todoDto) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

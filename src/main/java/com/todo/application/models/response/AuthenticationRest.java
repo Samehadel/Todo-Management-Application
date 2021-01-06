@@ -1,4 +1,4 @@
-package com.todo.application.response.models;
+package com.todo.application.models.response;
 
 public class AuthenticationRest {
 

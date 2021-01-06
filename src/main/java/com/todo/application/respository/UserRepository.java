@@ -8,6 +8,7 @@ import com.todo.application.data.entities.UserEntity;
 @Repository
 public interface UserRepository extends CrudRepository<UserEntity, Long>{
 
-	public UserEntity findByEmail(String email); 
+	public UserEntity findByUserName(String userName); 
+	public UserEntity findById(int userId);
 	
 }

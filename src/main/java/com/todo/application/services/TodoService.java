@@ -6,15 +6,15 @@ import com.todo.application.shared.dto.TodoDto;
 
 public interface TodoService {
 
-	public int deleteTodo(long id, String userName);
+	public int deleteTodo(TodoDto todoDto);
 
 	public TodoDto updateTodo(TodoDto todoDto);
 	
-	public List<TodoDto> retriveAllTodos(String userName);
+	public List<TodoDto> retriveAllTodos(int userId);
 	
-	public TodoDto retriveTodo(String userName, long id);
+	public TodoDto retriveTodo(long id);
 	
-	public TodoDto createTodo(TodoDto todoDto);
+	public void createTodo(TodoDto todoDto);
 	
 	
 }

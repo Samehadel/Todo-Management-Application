@@ -1,17 +1,16 @@
-package com.todo.application.request.models;
+package com.todo.application.models.request;
 
 public class UserRequestBody {
 
+	private String fullName;
 	private String userName;
 	private String password;
-	private String email;
 	
-	
-	public String getEmail() {
-		return email;
+	public String getFullName() {
+		return fullName;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 	public String getUserName() {
 		return userName;

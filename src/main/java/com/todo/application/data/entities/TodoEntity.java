@@ -2,69 +2,45 @@ package com.todo.application.data.entities;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-@Entity(name = "todos_tbl")
+@Entity
+@Table(name = "todos")
 public class TodoEntity {
 	
 	@Id
-	@GeneratedValue
-	private long tableId;
-	
-	@Column(nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	
-	@Column(nullable = false, length = 75)
-	private String userName;
-	
-	@Column(nullable = false, length = 200)
+	@Column(name = "description", nullable = false, length = 500)
 	private String description;
 	
-	@Column(nullable = false)
+	@Column(name = "due_date", nullable = false)
 	private Date dueDate;
 	
-	@Column(nullable = false)
+	@Column(name = "done", nullable = false)
 	private boolean isDone;
 
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(name = "user_id")
+	private UserEntity user; 
+	
+	
 	//Must have default constructor
 	public TodoEntity() {}
 	
-	public TodoEntity(String userName, String description, long id, Date dueDate, boolean isDone) {
-		super();
-		this.userName = userName;
+	public TodoEntity(String description, Date dueDate, boolean isDone) {
 		this.description = description;
-		this.id = id;
 		this.dueDate = dueDate;
 		this.isDone = isDone;
-	}
-
-	
-	public long getTableId() {
-		return tableId;
-	}
-
-	public void setTableId(long tableId) {
-		this.tableId = tableId;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public long getId() {
@@ -73,6 +49,14 @@ public class TodoEntity {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Date getDueDate() {
@@ -89,6 +73,14 @@ public class TodoEntity {
 
 	public void setDone(boolean isDone) {
 		this.isDone = isDone;
+	}
+
+	public UserEntity getUser() {
+		return user;
+	}
+
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
 
 	@Override
@@ -113,12 +105,4 @@ public class TodoEntity {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "TodoEntity [tableId=" + tableId + ", id=" + id + ", userName=" + userName + ", description="
-				+ description + ", dueDate=" + dueDate + ", isDone=" + isDone + "]";
-	}
-	
-	
-	
 }

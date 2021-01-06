@@ -15,15 +15,8 @@ import com.todo.application.data.entities.TodoEntity;
 @Repository
 public interface TodoRepository extends CrudRepository<TodoEntity, Long> {
 
-	List<TodoEntity> findAllByUserName(String userName);
+	public List<TodoEntity> findByUserId(int userId);
 	
-	TodoEntity findByUserNameAndId(String userName, long id);
-	
-	@Transactional
-	@Modifying
-	@Query("delete from todos_tbl todos where todos.userName=:userName and todos.id=:id")
-	int deleteByUserNameAndId(@Param("userName") String userName, @Param("id") long id);
-
-	TodoEntity deleteByUserName(String userName);
+	public TodoEntity findById(long id);
 
 }

@@ -1,4 +1,4 @@
-package com.todo.application.request.models;
+package com.todo.application.models.request;
 
 import java.util.Date;
 
